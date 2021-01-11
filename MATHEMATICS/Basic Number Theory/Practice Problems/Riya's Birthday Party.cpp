@@ -1,4 +1,4 @@
-//https://www.hackerearth.com/practice/math/number-theory/basic-number-theory-1/practice-problems/algorithm/the-confused-monk/
+//https://www.hackerearth.com/practice/math/number-theory/basic-number-theory-1/practice-problems/algorithm/riyas-birthday-party-1/description/
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #include<iostream>
 #include<vector>
@@ -15,7 +15,7 @@
 #include<cmath>
 #include<string>
 #include<iomanip>
-#include<cmath> 
+#include<cmath>
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #define fio ios_base::sync_with_stdio(false);cin.tie(NULL)
 #define ll            long long int
@@ -30,11 +30,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #define MAX           1e18
 #define MIN           -1000000007
-#define MOD           1000000007 
+#define MOD           1000000007
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 using namespace std;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
- 
+
 /////////////////////////////////////BINARY EXPONENTIATION/////////////////////////////////////////
 ll binaryExponentiation(ll base, ll exp, ll mod){
     ll value = 1;
@@ -83,6 +83,11 @@ void extendedEuclid(ll a,ll b,ll &d,ll &x,ll &y) {
 }
 //The time complexity of the extended Euclidean algorithm is O(log(max(A, B))).
 //////////////////////////////MODULAR MULTIPLICATIVE INVERSE/////////////////////////////////////////
+
+//FACTORIAL OF LARGE NUMBERS MODULO M  = 0 For all n > M  so find just upto M .
+
+
+
 //NAIVE APPROACH
 ll modInverse(ll a,ll m){
     a=a%m;
@@ -105,37 +110,25 @@ ll modInverseEEA(ll a,ll m,ll &d,ll &x,ll &y){
 ll modInverseBE(ll a,ll m){
     return binaryExponentiation(a,m-2,m);
 }
- 
+
 //Time complexity O(log(max(A, B))).
- 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//SOLVE HERE 
-ll calgx(vector<ll> &arr,ll n){
-    ll gcd = arr[0];
-    for(ll i=1;i<n;i++){
-        gcd = GCD(gcd,arr[i]);
-    }
-    return gcd%MOD;
-}
- 
-ll calfx(vector<ll> &arr,ll n){
-    ll fx = 1;
-    for(ll i=0;i<n;i++){
-        fx = (fx % MOD * arr[i] % MOD)%MOD;
-    }
-    return fx;
-}
- 
+
+// a[n] = (n-1).a[2] + 2*((n-2)^2 + (n-2)) - (n-2).a[1]
 int main(){
     fio;
-    ll d,x,y; // FOR EXTENDED EUCLID'S ALGORITHM
-    cinll(n);
-    vector<ll> arr;
-    for(ll i=0;i<n;i++){
-        cinll(x);arr.pb(x);
-    }
-    ll gx = calgx(arr,n);
-    ll fx = calfx(arr,n);
-    cout<< fastExponentiation(fx,gx,MOD) % MOD;
+	cinll(t);
+	while(t--){
+		cinll(n);
+		if(n==1) cout<<1<<"\n";
+		else if (n==2) cout<<6<<"\n";
+		else{
+			ll val1 = ((n-1)%MOD * 6%MOD)%MOD;
+			ll val2 = (2 * ( fastExponentiation((n-2),2,MOD)%MOD + 
+            (n-2)%MOD)%MOD ) % MOD; 
+			ll val3 = (n-2)%MOD;
+			cout<< ((val1%MOD + val2%MOD)%MOD - val3%MOD + MOD ) % 
+			MOD<<"\n";
+		} 
+	}
     return 0;
 }

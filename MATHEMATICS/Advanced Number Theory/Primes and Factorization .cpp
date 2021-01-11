@@ -74,8 +74,7 @@ unordered_map<ll,ll> primeFactorization(vector<ll> primes,ll n){
 //Total number of factors of a number with prime factorization a^p * b^q * c^r are (p+1).(q+1).(r+1)
 //Complexity  :- O( (Primes upto sqrt(N)) * log(n) )  //Works Upto (10^12)
 
-int main()
-{
+int main(){
     vector<ll> primes = sieveOfEratosThenes(100);
     for(ll i=0;i<primes.size();i++) cout<<primes[i]<<" ";
     return 0;
