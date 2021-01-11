@@ -1,4 +1,3 @@
-//https://www.hackerearth.com/practice/math/number-theory/basic-number-theory-1/practice-problems/algorithm/panda-and-chain-reaction/description/?layout=old
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #include<iostream>
 #include<vector>
@@ -83,6 +82,11 @@ void extendedEuclid(ll a,ll b,ll &d,ll &x,ll &y) {
 }
 //The time complexity of the extended Euclidean algorithm is O(log(max(A, B))).
 //////////////////////////////MODULAR MULTIPLICATIVE INVERSE/////////////////////////////////////////
+
+//FACTORIAL OF LARGE NUMBERS MODULO M  = 0 For all n > M  so find just upto M .
+
+
+
 //NAIVE APPROACH
 ll modInverse(ll a,ll m){
     a=a%m;
