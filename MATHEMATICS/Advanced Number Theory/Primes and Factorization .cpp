@@ -38,7 +38,7 @@ using namespace std;
 vector<ll> sieveOfEratosThenes(ll n){
     vector<ll> prime(n+1,1);
     for(ll i=4;i<=n;i+=2){
-        if((n&1)==0) prime[i] = 0;
+        if((i&1)==0) prime[i] = 0;
     }
     for(ll i=3;i<=n;i++){
         if(prime[i]==1){
@@ -75,7 +75,13 @@ unordered_map<ll,ll> primeFactorization(vector<ll> primes,ll n){
 //Complexity  :- O( (Primes upto sqrt(N)) * log(n) )  //Works Upto (10^12)
 
 int main(){
-    vector<ll> primes = sieveOfEratosThenes(100);
-    for(ll i=0;i<primes.size();i++) cout<<primes[i]<<" ";
+    cinll(n);
+    vector<ll> primes = sieveOfEratosThenes(1000005);
+    while(n--){
+        cinll(x);
+        unordered_map<ll,ll> mapit = primeFactorization(primes,x);
+        if(mapit.size()>=3) cout<<"YES\n";
+        else cout<<"NO\n";
+    }
     return 0;
 }
