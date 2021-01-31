@@ -61,12 +61,15 @@ ll fastExponentiation(ll base,ll exp,ll mod){
 }
 //Time complexity: O(log N)
 /////////////////////////////////////EUCLID's ALGORITHM/////////////////////////////////////////////
+//gcd(a,b) = gcd(b,a%b) {Euclid's theorem}
 ll GCD(ll a,ll b){
     if(b==0) return a;
     return GCD(b,a%b);
 }
 //The time complexity is O(log(max(A, B))).
 //////////////////////////////EXTENDED EUCLID's ALGORITHM////////////////////////////////////////////
+// d = gcd(a,b)
+// x , y satisfy ax + by = gcd(a,b)
 void extendedEuclid(ll a,ll b,ll &d,ll &x,ll &y) {
     if(b == 0) {
         d = a;

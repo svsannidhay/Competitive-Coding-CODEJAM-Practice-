@@ -15,6 +15,7 @@
 #include <string>
 #include <iomanip>
 #include <cmath>
+#include <bitset>
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #define fio  ios_base::sync_with_stdio(false);cin.tie(NULL);
 #define ll long long int
@@ -37,23 +38,58 @@ using namespace std;
 ////////////////////////////SIEVE OF ERATOSTHENES /////////////////////////////////////////////////
 vector<ll> sieveOfEratosThenes(ll n){
     vector<ll> prime(n+1,1);
-    for(ll i=4;i<=n;i+=2){
-        if((i&1)==0) prime[i] = 0;
-    }
-    for(ll i=3;i<=n;i++){
+    vector<ll> primeNumbers;
+    for(ll i=2;i<=n;i++){
         if(prime[i]==1){
+            primeNumbers.pb(i);
             for(ll j=i*i;j<=n;j+=i){
                 prime[j] = 0;
             }
         }
     }
-    vector<ll> primeNumbers;
-    for(ll i=2;i<=n;i++){
-        if(prime[i]==1) primeNumbers.pb(i);
-    }
     return primeNumbers;
 }
 //Complexity :- O(N log(log(N)))   //Works Upto (10^7)
+////////////////////////////BITSET SIEVE OF ERATOSTHENES /////////////////////////////////////////
+vector<ll> bitsetSieveOfEratosThenes(ll n){
+    bitset<10000000> b;
+    b.set();
+    vector<ll> primeNumbers;
+    for(ll i=2;i<=n;i++){
+        if(b[i]==1){
+            primeNumbers.pb(i);
+            for(ll j=i*i;j<=n;j+=i){
+                b[j] = 0;
+            }
+        }
+    }
+    return primeNumbers;
+}
+//Complexity :- O(N log(log(N)))   //Works Upto (8*10^7)
+////////////////////// SEGMENTED SIEVE OF ERATOSTHENES ///////////////////////////////////////////
+
+vector<ll> segmentedSieve(ll m,ll n){
+    if(m==1) m++;
+    vector<ll> primes = sieveOfEratosThenes(sqrt(n+1));
+    vector<bool> segment(n-m+1,true);
+    for(ll i=0;i<primes.size();i++){
+        if(primes[i]*primes[i]>n) break;
+        ll start = m;
+        if(m%primes[i]!=0){
+            start += (primes[i] - (start%primes[i]));
+        }
+        ll ind = start-m;
+        for(ll j = ind;j<segment.size();j+=primes[i]){
+            if(j+m!=primes[i]) segment[j] = false;
+        }
+    }
+    vector<ll> primesnm;
+    for(ll i=0;i<segment.size();i++){
+        if(segment[i]) primesnm.pb(i+m);
+    }
+    return primesnm;
+}
+
 ////////////////////////////PRIME FACTORIZATION (Precomputed primes)//////////////////////////////
 //https://cp-algorithms.com/algebra/factorization.html
 //Takes prime numbers Upto Sqrt(N) and generates Prime factorization as a map<prime,frequency>
@@ -68,20 +104,36 @@ unordered_map<ll,ll> primeFactorization(vector<ll> primes,ll n){
 		if(count>0) mapit[primes[i]] = count;
 		if(primes[i]*primes[i]>n) break;
 	}
+
 	if(n>1) mapit[n] = 1;
     return mapit;
 }
 //Total number of factors of a number with prime factorization a^p * b^q * c^r are (p+1).(q+1).(r+1)
 //Complexity  :- O( (Primes upto sqrt(N)) * log(n) )  //Works Upto (10^12)
 
+//////////////////////////////////Euler totient function //////////////////////////////////////////
+// value of totient fucntion phi(n) is equal to no of numbers coprime with n which are less than n.
+//ex phi(8) = 4 {1,3,5,7}
+// if n = p1^x * p2^y *.....* pk^z then 
+// according to Euler phi(n) = n*[1-1/p1]*[1-1/p2]*....*[1-1/pk] 
+
+ll eulerTotientFunction(unordered_map<ll,ll> primeFactors,ll n){
+	ll phi = n;
+	for(auto it=primeFactors.begin();it!=primeFactors.end();it++){
+		phi *= (it->first-1);
+		phi /= it->first;
+	}
+	return phi;
+}
+
 int main(){
-    cinll(n);
-    vector<ll> primes = sieveOfEratosThenes(1000005);
-    while(n--){
-        cinll(x);
-        unordered_map<ll,ll> mapit = primeFactorization(primes,x);
-        if(mapit.size()>=3) cout<<"YES\n";
-        else cout<<"NO\n";
+    fio;
+    cinll(t);
+    while(t--){
+        cinll(n);cinll(m);
+        vector<ll> primesnm = segmentedSieve(n,m);
+        for(ll i=0;i<primesnm.size();i++) cout<<primesnm[i]<<"\n";
+        cout<<"\n"; 
     }
     return 0;
 }
