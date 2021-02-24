@@ -15,6 +15,7 @@
 #include<string>
 #include<iomanip>
 #include<cmath>
+#include <boost/multiprecision/cpp_int.hpp>
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #define fio ios_base::sync_with_stdio(false);cin.tie(NULL)
 #define ll            long long int
@@ -32,8 +33,20 @@
 #define MOD           1000000007
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 using namespace std;
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
+using namespace boost::multiprecision;
+using u64 = uint64_t;
+using u128 = __uint128_t;
+/////////////////////////////////////BINARY EXPONENTIATION FOR 128 bit number/////////////////////////////////////////
+ll binPower(ll base,ll exp,ll mod) {
+    ll result = 1;
+    base%mod;
+    while(exp) {
+        if(exp & 1) result = (((u128)result %mod) * (base % mod)) % mod;
+        base = (((u128)base%mod) * (base%mod) ) %mod;
+        exp>>=1;
+    }
+    return result;
+}
 /////////////////////////////////////BINARY EXPONENTIATION/////////////////////////////////////////
 ll binaryExponentiation(ll base, ll exp, ll mod){
     ll value = 1;
@@ -41,7 +54,7 @@ ll binaryExponentiation(ll base, ll exp, ll mod){
         if(exp%2==1)
             value = ((value % mod) * (base % mod)) % mod;
         exp/=2;
-        base = (base%mod * base%mod)%mod;
+        base = ((base%mod) * (base%mod))%mod;
     }
     return value;
 }

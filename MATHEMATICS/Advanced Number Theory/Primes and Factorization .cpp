@@ -120,20 +120,14 @@ unordered_map<ll,ll> primeFactorization(vector<ll> primes,ll n){
 ll eulerTotientFunction(unordered_map<ll,ll> primeFactors,ll n){
 	ll phi = n;
 	for(auto it=primeFactors.begin();it!=primeFactors.end();it++){
-		phi *= (it->first-1);
-		phi /= it->first;
-	}
+		phi /= it->first; // first divide then mult to prevent integer overflows
+        phi *= (it->first - 1);
+    }
 	return phi;
 }
 
 int main(){
-    fio;
-    cinll(t);
-    while(t--){
-        cinll(n);cinll(m);
-        vector<ll> primesnm = segmentedSieve(n,m);
-        for(ll i=0;i<primesnm.size();i++) cout<<primesnm[i]<<"\n";
-        cout<<"\n"; 
-    }
+    vector<ll> primes = bitsetSieveOfEratosThenes(720);
+    for(ll i=0;i<primes.size();i++) cout<<primes[i]<<" ";
     return 0;
 }
