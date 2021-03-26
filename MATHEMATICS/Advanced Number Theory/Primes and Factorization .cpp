@@ -93,7 +93,7 @@ vector<ll> segmentedSieve(ll m,ll n){
 ////////////////////////////PRIME FACTORIZATION (Precomputed primes)//////////////////////////////
 //https://cp-algorithms.com/algebra/factorization.html
 //Takes prime numbers Upto Sqrt(N) and generates Prime factorization as a map<prime,frequency>
-unordered_map<ll,ll> primeFactorization(vector<ll> primes,ll n){
+unordered_map<ll,ll> primeFactorization(vector<ll> &primes,ll n){
 	unordered_map<ll,ll> mapit;
 	for(ll i=0;i<primes.size();i++){
 		ll count = 0;
@@ -117,7 +117,7 @@ unordered_map<ll,ll> primeFactorization(vector<ll> primes,ll n){
 // if n = p1^x * p2^y *.....* pk^z then 
 // according to Euler phi(n) = n*[1-1/p1]*[1-1/p2]*....*[1-1/pk] 
 
-ll eulerTotientFunction(unordered_map<ll,ll> primeFactors,ll n){
+ll eulerTotientFunction(unordered_map<ll,ll> &primeFactors,ll n){
 	ll phi = n;
 	for(auto it=primeFactors.begin();it!=primeFactors.end();it++){
 		phi /= it->first; // first divide then mult to prevent integer overflows
