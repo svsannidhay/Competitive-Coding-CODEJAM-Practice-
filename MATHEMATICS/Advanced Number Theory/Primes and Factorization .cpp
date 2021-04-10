@@ -126,6 +126,77 @@ ll eulerTotientFunction(unordered_map<ll,ll> &primeFactors,ll n){
 	return phi;
 }
 
+
+////////////////////////SUM OF DIVISORS USING EULER'S RECURSION + DP ///////////////////
+//http://numberworld.blogspot.com/2013/09/sum-of-divisors-function-eulers.html#:~:text=One%20could%20write%20the%20recursion,0%20%3C%20n%2Dp(%2Db_2)%24.
+/*
+    D(n) = D(n-1) + D(n-2) - D(n - 5) - D(n - 7) + D(n - 12) + D(n - 15) .......
+    1 2 5 7 12 15 .... is the sequence of generalized pentagonal numbers (3𝑛2−𝑛)/2 for
+    n = 1 -1 2 -2 ..... and the signs are repetitions of 1,1,−1,−1.
+    base case D(0) = 0 for sum of proper diviors
+    D(0) = n for sum of all divisors
+
+    Complexity : O(N * Sqrt(N) ) for N numbers
+*/
+ll dp[10000001]; 
+
+ll cal(ll n) {
+    ll val = 3 * n * n;
+    val -= n;
+    val /= 2;
+    return val; 
+}
+
+ll solvedp(ll n,ll &check) {
+    check++;
+    if(dp[n] != -1) return dp[n];
+    ll start = 1;
+    ll arr[4];
+    arr[0] = 1;arr[1] = 1;
+    arr[2] = -1;arr[3] = -1;
+    ll count = 0;
+    ll cnt = 0;
+    dp[n] = 0;
+    while(cal(start) <= n) {
+        if(n - cal(start) == 0) {
+            dp[n] += arr[cnt] * n;
+        } else {
+            dp[n] += arr[cnt] * solvedp(n-cal(start),check);
+        }
+        count++;
+        cnt++;
+        cnt = cnt % 4;
+        if(count % 2 != 0) {
+            start *= -1;
+        } else {
+            start *= -1;
+            start++;
+        }
+    }
+    return 0;
+}
+
+
+///////////////////////Sum and no of divisors of a number (Precomputed)/////////////////////////
+/*
+    Also what we can actually do is 
+    iterate over from 1 to n;
+    and keep adding i to all the multiples of i;
+    ex add 3 to  3, 6, 9, 12 ....... 9999
+
+
+    complexity :-  O(NlogN)
+*/
+ll sumdiv[10000005];
+void solvedp() {
+    for(ll i=1;i<=10000001;i++) {
+        for(ll j=i;j<=10000001;j+=i) {
+            sumdiv[j] += i;
+        }
+    }
+}
+
+
 int main(){
     vector<ll> primes = bitsetSieveOfEratosThenes(720);
     for(ll i=0;i<primes.size();i++) cout<<primes[i]<<" ";
