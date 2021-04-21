@@ -109,6 +109,7 @@ unordered_map<ll,ll> primeFactorization(vector<ll> &primes,ll n){
     return mapit;
 }
 //Total number of factors of a number with prime factorization a^p * b^q * c^r are (p+1).(q+1).(r+1)
+// Sum of factors of a number is (a^0 + a^1 + .. + a^p) * (b^0 + b^1 + .. + b^q) * (c^0 + .. + c^r)
 //Complexity  :- O( (Primes upto sqrt(N)) * log(n) )  //Works Upto (10^12)
 
 //////////////////////////////////Euler totient function //////////////////////////////////////////
@@ -126,6 +127,13 @@ ll eulerTotientFunction(unordered_map<ll,ll> &primeFactors,ll n){
 	return phi;
 }
 
+// Pillai's arithmetical function
+/*
+    P(n) = summation(k = 1 to n) gcd(k,n)
+    P(n) = gcd(1,n) + gcd(2,n) + .... + gcd(k,n)
+
+    P(n) = summation(d is a divisor of n) d * phi(n/d)
+*/ 
 
 ////////////////////////SUM OF DIVISORS USING EULER'S RECURSION + DP ///////////////////
 //http://numberworld.blogspot.com/2013/09/sum-of-divisors-function-eulers.html#:~:text=One%20could%20write%20the%20recursion,0%20%3C%20n%2Dp(%2Db_2)%24.
